@@ -66,7 +66,9 @@ func! CompileRun()
         exec '!javac -d bin ' . l:path
         echo 'compile success: ' . l:path
         let l:path = substitute(l:path, "\\", ".", "g")
+        let l:path = substitute(l:path, "/", ".", "g")
         let l:path = substitute(l:path, ".java", "", "")
+        let l:path = substitute(l:path, "./", "", "")
         let l:path = substitute(l:path, "src.", "", "")
         echo l:path
         exec '!java -cp ./bin ' . l:path
@@ -81,3 +83,7 @@ endfunc
 noremap <leader>gr :!gradle run<cr>
 inoremap <leader>ss System.out.println();<esc>hi
 noremap <leader>ll :love .
+
+" language specific abbreviations
+autocmd FileType java iabbrev pcls public class <esc>"%pvbbdA {<cr>}<esc>O
+autocmd FileType java iabbrev psvm public static void main(String[] args) {<cr>}<esc>O
