@@ -58,11 +58,10 @@ source ~/.config/nvim/coc.vim
 source ~/.config/nvim/nerdtree.vim
 source ~/.config/nvim/telescope.vim
 source ~/.config/nvim/airline.vim
+source ~/.config/nvim/vimspector.vim
 
 " lua init settings
 :lua require('kevin')
-
-let g:vimspector_enable_mappings = 'VISUAL_STUDIO'
 au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
 
 " fzf settings
