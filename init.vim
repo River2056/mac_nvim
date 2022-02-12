@@ -1,68 +1,18 @@
-set nocompatible
-set backspace=2
-set encoding=utf-8
-set fileencoding=utf-8
-filetype off
-
-let $LANG='en'
-set langmenu=none
-set tabstop=4
-set softtabstop=4
-set expandtab
-set shiftwidth=4
-set smartindent
-set smartcase
-set ignorecase
-set incsearch
-set noswapfile
-set nowrap
-set number 
-set relativenumber
-set iskeyword+=-
-set splitbelow
-set splitright
-set hlsearch
-set noerrorbells
-set scrolloff=10
-set hidden
-set path+=**
-set t_Co=256
-set background=dark
-
-call plug#begin('~/.local/share/nvim/site/autoload')
-Plug 'tpope/vim-surround'
-Plug 'tpope/vim-commentary'
-Plug 'tpope/vim-fugitive'
-Plug 'mogelbrod/vim-jsonpath'
-Plug 'nvim-lualine/lualine.nvim'
-Plug 'kyazdani42/nvim-web-devicons'
-Plug 'morhetz/gruvbox'
-Plug 'tomasiser/vim-code-dark'
-Plug 'lunarvim/darkplus.nvim'
-Plug 'puremourning/vimspector'
-Plug 'preservim/nerdtree'
-Plug 'nvim-lua/plenary.nvim'
-Plug 'nvim-telescope/telescope.nvim'
-Plug 'nvim-treesitter/nvim-treesitter', {'do': ':TSUpdate'}
-Plug 'neoclide/coc.nvim', {'branch': 'release'}
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' } 
-Plug 'junegunn/fzf.vim'
-call plug#end()
-
-colorscheme gruvbox
-syntax enable
-
 " source settings files
-source ~/.config/nvim/mappings.vim
-source ~/.config/nvim/coc.vim
-source ~/.config/nvim/nerdtree.vim
-source ~/.config/nvim/telescope.vim
-source ~/.config/nvim/airline.vim
-source ~/.config/nvim/vimspector.vim
+source ~/.config/nvim/init/sets.vim
+source ~/.config/nvim/init/plugins.vim
+source ~/.config/nvim/init/mappings.vim
+source ~/.config/nvim/init/coc.vim
+source ~/.config/nvim/init/nerdtree.vim
+source ~/.config/nvim/init/telescope.vim
+source ~/.config/nvim/init/airline.vim
+source ~/.config/nvim/init/vimspector.vim
+source ~/.config/nvim/init/harpoon.vim
 
 " lua init settings
 :lua require('kevin')
 au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
+colorscheme gruvbox
 
 " fzf settings
 " This is the default extra key bindings
