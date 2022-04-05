@@ -1,3 +1,4 @@
+" custom mappings
 inoremap jk <esc>
 inoremap kj <esc>
 let mapleader = ","
@@ -6,6 +7,7 @@ noremap <leader>pp ggVG"+p
 noremap <leader>jp :JsonPath<cr>
 nnoremap <leader><space> :noh<cr>
 nnoremap <leader>ss :w<cr>
+nnoremap <leader>o :Ex<cr>
 nnoremap <leader>q :q<cr>
 vnoremap <leader>p "_dP
 
@@ -21,6 +23,7 @@ nnoremap <leader>bn :bnext<cr>
 nnoremap <leader>bp :bprevious<cr>
 nnoremap <leader>bd :bdelete<cr>
 
+" fzf
 nnoremap <leader>ev :Hex! ~/.config/nvim/<cr>
 nnoremap <leader>sv :source $MYVIMRC<cr>
 nnoremap <leader>pi :PlugInstall<cr>
@@ -54,6 +57,11 @@ nnoremap <C-l> <C-w>l
 vnoremap > >gv
 vnoremap < <gv
 
+" git fugitive
+nnoremap <leader>gs :Git<cr>
+nnoremap <leader>gf :diffget //2<cr>
+nnoremap <leader>gj :diffget //3<cr>
+
 " language specific
 " nmap <F5> :call CompileRun()<cr>
 " noremap <leader>r :!javac % && java %:r<cr>
@@ -63,7 +71,7 @@ func! CompileRun()
     if &filetype == 'java'
         let l:path = expand('%')
         echo l:path
-        exec '!javac -d bin ' . l:path
+        exec '!javac -d bin -cp /src' . l:path
         echo 'compile success: ' . l:path
         let l:path = substitute(l:path, "\\", ".", "g")
         let l:path = substitute(l:path, "/", ".", "g")
@@ -73,11 +81,11 @@ func! CompileRun()
         echo l:path
         exec '!java -cp ./bin ' . l:path
     elseif &filetype == 'python'
-        exec "!time python %"
+        exec "!python3 %"
     elseif &filetype == 'lua'
-        exec "!time lua %"
+        exec "!lua %"
     elseif &filetype == 'javascript'
-        exec "!time node %"
+        exec "!node %"
     endif
 endfunc
 noremap <leader>gr :!gradle run<cr>
@@ -85,5 +93,8 @@ inoremap <leader>ss System.out.println();<esc>hi
 noremap <leader>ll :love .
 
 " language specific abbreviations
-autocmd FileType java iabbrev pcls public class <esc>"%pvbbdA {<cr>}<esc>O
+autocmd FileType java iabbrev pcls public class <esc>"%pvbbdbbv^wwdA {<cr>}<esc>O
+autocmd FileType java iabbrev pint public interface <esc>"%pvbbdbbv^wwdA {<cr>}<esc>O
 autocmd FileType java iabbrev psvm public static void main(String[] args) {<cr>}<esc>O
+autocmd FileType typescript iabbrev ecls export class <esc>"%pvbbdbbv^wwdA {<cr>}<esc>O
+autocmd FileType typescript iabbrev eint export interface <esc>"%pvbbdbbv^wwdA {<cr>}<esc>O
