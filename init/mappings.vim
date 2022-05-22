@@ -10,6 +10,7 @@ nnoremap <leader>ss :w<cr>
 nnoremap <leader>o :Ex<cr>
 nnoremap <leader>q :q<cr>
 vnoremap <leader>p "_dP
+nnoremap <space> za
 
 " tabs
 nnoremap <leader>dt :diffthis<cr>
@@ -61,6 +62,7 @@ vnoremap < <gv
 nnoremap <leader>gs :Git<cr>
 nnoremap <leader>gf :diffget //2<cr>
 nnoremap <leader>gj :diffget //3<cr>
+nnoremap <leader>gc :Git commit<cr>
 
 " language specific
 " nmap <F5> :call CompileRun()<cr>
@@ -86,11 +88,33 @@ func! CompileRun()
         exec "!lua %"
     elseif &filetype == 'javascript'
         exec "!node %"
+    elseif &filetype == 'c'
+        exec "!gcc % -o %< && %<"
+    elseif &filetype == 'ruby'
+        exec "!ruby %"
     endif
 endfunc
 noremap <leader>gr :!gradle run<cr>
 inoremap <leader>ss System.out.println();<esc>hi
 noremap <leader>ll :love .
+
+" ChangeCase
+function! ChangeCase()
+    let l:word = expand('<cword>')
+    if l:word =~? '_\w'
+        " has underscore, change to camel case
+        " might be all caps, tolower() first
+        let l:word = tolower(l:word)
+        let l:word = substitute(l:word, '_\(\w\)', '\U\1', 'g')
+        exec 'norm! ciw' . l:word
+    else
+        " no underscore, change to snake case
+        let l:word = substitute(l:word, '\(\u[A-Z]\)', '_\u\1', 'g')
+        let l:word = tolower(l:word)
+        exec 'norm! ciw' . l:word
+    endif
+endfunction
+nnoremap <leader>cc :call ChangeCase()<cr>
 
 " language specific abbreviations
 autocmd FileType java iabbrev sout System.out.println()
@@ -100,3 +124,28 @@ autocmd FileType java iabbrev psvm public static void main(String[] args) {<cr>}
 autocmd FileType typescript iabbrev ecls export class <esc>"%pvbbdbbv^wwdA {<cr>}<esc>O
 autocmd FileType typescript iabbrev eint export interface <esc>"%pvbbdbbv^wwdA {<cr>}<esc>O
 autocmd FileType python iabbrev defmain def main():<esc>opass<esc>o<cr>if __name__ == '__main__':<esc>omain()
+autocmd FileType python iabbrev deftest import unittest<esc>o<cr>O<esc>"%pvbbdbbv^dIdef <esc>A():<cr>pass<cr><cr><esc>"%p$vbbdbbv^d,ccIclass Test<esc>l~<esc>A(unittest.TestCase):<cr>def setUp(self):<cr>self.tests = []<cr><cr><esc>"%pvbbdbbv^dI	def test_<esc>A(self):<cr>for value, expected in self.tests:<cr>with self.subTest(value=value):<cr>result = <esc>"%pvbbdbbvT=di <esc>A(value)<cr>print(f'result: {result}, expected: {expected}, input: {value}')<cr>self.assertEqual(result, expected)<cr><cr><esc>0aif __name__ == '__main__':<cr>unittest.main()
+
+" disable language server for csharp to avoid lag: PBSS
+augroup disable_lsp
+    autocmd!
+    " autocmd BufWinEnter *.cs :CocDisable
+    autocmd BufWinEnter *.cs :call OmniSharp#StopAllServers()
+augroup end
+
+augroup black_on_save
+  autocmd!
+  autocmd BufWritePre *.py Black
+augroup end
+
+function! SearchAndReplace()
+    let l:word = expand('<cword>')
+    echom l:word
+    exec "wincmd l"
+    " if search(l:word, 'w') != 0
+    "     exec "wincmd h"
+    "     exec "norm! 0d}dd"
+    " endif
+    call search(l:word, 'w')
+endfunction
+nnoremap <leader>sr :call SearchAndReplace()<cr>

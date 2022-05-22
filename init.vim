@@ -14,24 +14,6 @@ source ~/.config/nvim/init/harpoon.vim
 au! BufWritePost $MYVIMRC source %      " auto source when writing to init.vm alternatively you can run :source $MYVIMRC
 colorscheme gruvbox
 
-" ChangeCase
-function! ChangeCase()
-    let l:word = expand('<cword>')
-    if l:word =~? '_\w'
-        " has underscore, change to camel case
-        " might be all caps, tolower() first
-        let l:word = tolower(l:word)
-        let l:word = substitute(l:word, '_\(\w\)', '\U\1', 'g')
-        exec 'norm! ciw' . l:word
-    else
-        " no underscore, change to snake case
-        let l:word = substitute(l:word, '\(\u[A-Z]\)', '_\u\1', 'g')
-        let l:word = tolower(l:word)
-        exec 'norm! ciw' . l:word
-    endif
-endfunction
-nnoremap <leader>cc :call ChangeCase()<cr>
-
 " fzf settings
 " This is the default extra key bindings
 let g:fzf_action = {
