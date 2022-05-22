@@ -63,6 +63,7 @@ nnoremap <leader>gs :Git<cr>
 nnoremap <leader>gf :diffget //2<cr>
 nnoremap <leader>gj :diffget //3<cr>
 nnoremap <leader>gc :Git commit<cr>
+nnoremap <leader>gp :Git push<cr>
 
 " language specific
 " nmap <F5> :call CompileRun()<cr>
@@ -73,7 +74,7 @@ func! CompileRun()
     if &filetype == 'java'
         let l:path = expand('%')
         echo l:path
-        exec '!javac -d bin -cp /src' . l:path
+        exec '!javac -d bin -cp ./src ' . l:path
         echo 'compile success: ' . l:path
         let l:path = substitute(l:path, "\\", ".", "g")
         let l:path = substitute(l:path, "/", ".", "g")
